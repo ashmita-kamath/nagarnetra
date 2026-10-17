@@ -1,0 +1,10 @@
+fastapi>=0.110
+uvicorn[standard]>=0.29
+python-multipart>=0.0.9
+sqlalchemy>=2.0
+psycopg2-binary>=2.9
+cloudinary>=1.40
+python-dotenv>=1.0
+pillow>=10.0
+numpy>=1.26
+onnxruntime>=1.17

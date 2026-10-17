@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NagarNetra - See it. Snap it. Fix it.</title>
+  <meta name="description" content="AI-powered civic issue reporting. Snap a pothole, AI rates severity, the city sees what to fix first.">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="logo"></span>NagarNetra</div>
+    <p class="tagline">See it. Snap it. Fix it.</p>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <nav class="tabs" role="tablist">
+        <button class="tab-btn active" data-tab="report">Report</button>
+        <button class="tab-btn" data-tab="issues">Issues</button>
+        <button class="tab-btn" data-tab="stats">Impact</button>
+      </nav>
+
+      <div id="tab-report" class="tab active">
+        <form id="report-form">
+          <label class="drop" for="photo">
+            <input type="file" id="photo" name="image" accept="image/*" capture="environment" required>
+            <img id="preview" alt="" hidden>
+            <span id="drop-text"><strong>Tap to take a photo</strong><br>or upload one</span>
+          </label>
+
+          <div class="loc-row">
+            <button type="button" id="locate" class="ghost">Use my location</button>
+            <span id="loc-text" class="muted">or tap the map</span>
+          </div>
+
+          <label class="field">Category
+            <select name="category">
+              <option value="auto">Let AI decide</option>
+              <option value="pothole">Pothole</option>
+              <option value="garbage">Garbage dump</option>
+              <option value="streetlight">Broken streetlight</option>
+              <option value="waterlogging">Waterlogging</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+
+          <label class="field">Details <span class="muted">(optional)</span>
+            <textarea name="description" maxlength="500" rows="2" placeholder="e.g. Near the bus stop, two-wheelers swerving"></textarea>
+          </label>
+
+          <button type="submit" id="submit-btn" class="primary">Report issue</button>
+        </form>
+        <div id="result" hidden></div>
+      </div>
+
+      <div id="tab-issues" class="tab">
+        <div class="filters">
+          <select id="filter-status">
+            <option value="open">Open</option>
+            <option value="resolved">Resolved</option>
+            <option value="all">All</option>
+          </select>
+          <select id="filter-sort">
+            <option value="priority">Fix first</option>
+            <option value="recent">Newest</option>
+          </select>
+        </div>
+        <ul id="issue-list" class="issue-list"></ul>
+      </div>
+
+      <div id="tab-stats" class="tab">
+        <div id="stats" class="stats"></div>
+        <h3>How priority works</h3>
+        <p class="muted small">Priority = AI severity (size, count and confidence of detected damage) + crowd signal (more citizens reporting the same spot) + waiting time. Reports within 25 m of an open issue of the same type are merged instead of duplicated.</p>
+        <p class="muted small">Faces in every public photo are blurred automatically by Cloudinary.</p>
+        <p id="health" class="muted small"></p>
+      </div>
+    </section>
+
+    <section id="map" aria-label="Map of reported issues"></section>
+  </main>
+
+  <input type="file" id="resolve-photo" accept="image/*" hidden>
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
